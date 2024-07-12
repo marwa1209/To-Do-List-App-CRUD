@@ -16,13 +16,26 @@ export class ToDoComponent {
   imageLink: string = 'https://cdn-icons-png.flaticon.com/512/4697/4697260.png';
   newTask: string = '';
   Tasks: any[] = [];
+  editable: boolean = false;
+  editedTask: string = '';
   addTask() {
-    if (this.newTask.trim() !== "") {
+    if (this.newTask.trim() !== '') {
       this.Tasks.push(this.newTask);
       this.newTask = '';
     }
   }
   removeTask(index: number) {
-      this.Tasks.splice(index,1);
+    this.Tasks.splice(index, 1);
+  }
+
+  editTask(index: number) {
+    this.editable = true;
+    this.editedTask = this.Tasks[index];
+  }
+
+  saveTask(index: number) {
+    this.Tasks[index] = this.editedTask;
+    this.editable = false;
+    this.editedTask = '';
   }
 }

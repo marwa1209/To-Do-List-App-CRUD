@@ -1,16 +1,18 @@
 <div class="container my-5">
-  <h1 class="text-center text-primary">{{Title}}</h1>
+  <h1 class="text-center text-primary">{{ Title }}</h1>
   <img width="300" height="300" class="img-fluid mx-auto d-block mb-3" [src]="imageLink" alt="">
+
   <div class="container">
     <div class="row">
       <div class="col-sm-10">
-        <input class="form-control mb-4" placeholder="New Task"[(ngModel)]="newTask" >
+        <input class="form-control mb-4" placeholder="New Task" [(ngModel)]="newTask">
       </div>
       <div class="col-sm-2">
         <button (click)="addTask()" mat-flat-button color="primary">Add Task</button>
       </div>
     </div>
   </div>
+
   <div class="row" *ngIf="Tasks.length > 0; else emptyMessage">
     <div class="col-sm-11">
       <p-table [value]="Tasks" [tableStyle]="{ 'min-width': '50rem' }">
@@ -23,15 +25,29 @@
         </ng-template>
         <ng-template pTemplate="body" let-task let-index="rowIndex">
           <tr>
-            <td>{{ task }}</td>
-            <td><button mat-flat-button color="primary">edit</button></td>
-            <td><button mat-flat-button color="warn"(click)="removeTask(index)">remove</button></td>
+            <td>
+              <ng-container *ngIf="!editable; else editMode">
+                {{ task }}
+              </ng-container>
+              <ng-template #editMode>
+                <input class="border-0 form-control" [(ngModel)]="editedTask">
+              </ng-template>
+            </td>
+            <td>
+              <button mat-flat-button color="primary" (click)="editable ? saveTask(index) : editTask(index)">
+                {{ editable ? 'Save' : 'Edit' }}
+              </button>
+            </td>
+            <td>
+              <button mat-flat-button color="warn" (click)="removeTask(index)">Remove</button>
+            </td>
           </tr>
         </ng-template>
       </p-table>
     </div>
   </div>
 </div>
+
 <ng-template #emptyMessage>
   <p>No Tasks available.</p>
 </ng-template>

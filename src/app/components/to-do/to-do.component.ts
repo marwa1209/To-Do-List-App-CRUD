@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-to-do',
   standalone: true,
-  imports: [CommonModule, TableModule, MatButtonModule,FormsModule],
+  imports: [CommonModule, TableModule, MatButtonModule, FormsModule],
   templateUrl: './to-do.component.html',
   styleUrl: './to-do.component.css',
 })
@@ -17,9 +17,12 @@ export class ToDoComponent {
   newTask: string = '';
   Tasks: any[] = [];
   addTask() {
-    if (this.newTask != null) {
+    if (this.newTask.trim() !== "") {
       this.Tasks.push(this.newTask);
-      this.newTask="";
+      this.newTask = '';
     }
+  }
+  removeTask(index: number) {
+      this.Tasks.splice(index,1);
   }
 }

@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="Tasks.length > 0; else emptyMessage">
     <div class="col-sm-11">
       <p-table [value]="Tasks" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
@@ -21,14 +21,17 @@
             <th>Remove</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-task>
+        <ng-template pTemplate="body" let-task let-index="rowIndex">
           <tr>
-            <td>{{ task}}</td>
+            <td>{{ task }}</td>
             <td><button mat-flat-button color="primary">edit</button></td>
-            <td><button mat-flat-button color="warn">remove</button></td>
+            <td><button mat-flat-button color="warn"(click)="removeTask(index)">remove</button></td>
           </tr>
         </ng-template>
       </p-table>
     </div>
   </div>
 </div>
+<ng-template #emptyMessage>
+  <p>No Tasks available.</p>
+</ng-template>
